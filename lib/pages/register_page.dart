@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 /*
  * Name: RegisterPage
@@ -11,15 +13,48 @@ import 'package:flutter/material.dart';
  *  None
  */
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  final _nameController =
+  TextEditingController(); // represents the text editor for the name field
+  final _usernameController =
+  TextEditingController(); // represents the text editor for the username field
+  final _emailController =
+  TextEditingController(); // represents the text editor for the email field
+  final _passwordController =
+  TextEditingController(); // represents the text editor for the password field
+
+  RegisterPage({Key? key}) : super(key: key);
+
+  void registerUser(context) {
+    var database = FirebaseFirestore.instance; // connect to database
+
+    // create new user using email and password
+    try {
+      FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+      database.collection("users").add({
+        "username": _usernameController.text,
+        "email": _emailController.text,
+        "name": _nameController.text,
+      }); // create new database entry for the user
+      Navigator.pushNamed(context, "/home"); // go to home page
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    const double textFieldLeftPad =
+    const double _textFieldLeftPad =
         200; // represents how far left the text fields start
-    const double textFieldRightPad =
+    const double _textFieldRightPad =
         100; // represents how far right the text fields end
-    const double textFieldTopPad =
+    const double _textFieldTopPad =
         250; // represents how high the text fields start
 
     return Scaffold(
@@ -46,10 +81,11 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(
-                      textFieldLeftPad, 0, textFieldRightPad, textFieldTopPad),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  padding: const EdgeInsets.fromLTRB(_textFieldLeftPad, 0,
+                      _textFieldRightPad, _textFieldTopPad),
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
                       labelText: "Name",
                       hintText: "Name",
                       border: OutlineInputBorder(
@@ -65,12 +101,13 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      textFieldLeftPad,
-                      textFieldTopPad - 113 > 0 ? 0 : 113 - textFieldTopPad,
-                      textFieldRightPad,
-                      textFieldTopPad - 113 > 0 ? textFieldTopPad - 113 : 0),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                      _textFieldLeftPad,
+                      _textFieldTopPad - 113 > 0 ? 0 : 113 - _textFieldTopPad,
+                      _textFieldRightPad,
+                      _textFieldTopPad - 113 > 0 ? _textFieldTopPad - 113 : 0),
+                  child: TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
                       labelText: "Username",
                       hintText: "Username",
                       border: OutlineInputBorder(
@@ -86,12 +123,13 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      textFieldLeftPad,
-                      textFieldTopPad - 226 > 0 ? 0 : 226 - textFieldTopPad,
-                      textFieldRightPad,
-                      textFieldTopPad - 226 > 0 ? textFieldTopPad - 226 : 0),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                      _textFieldLeftPad,
+                      _textFieldTopPad - 226 > 0 ? 0 : 226 - _textFieldTopPad,
+                      _textFieldRightPad,
+                      _textFieldTopPad - 226 > 0 ? _textFieldTopPad - 226 : 0),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
                       labelText: "Email",
                       hintText: "Email",
                       border: OutlineInputBorder(
@@ -107,13 +145,14 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      textFieldLeftPad,
-                      textFieldTopPad - 339 > 0 ? 0 : 339 - textFieldTopPad,
-                      textFieldRightPad,
-                      textFieldTopPad - 339 > 0 ? textFieldTopPad - 339 : 0),
-                  child: const TextField(
+                      _textFieldLeftPad,
+                      _textFieldTopPad - 339 > 0 ? 0 : 339 - _textFieldTopPad,
+                      _textFieldRightPad,
+                      _textFieldTopPad - 339 > 0 ? _textFieldTopPad - 339 : 0),
+                  child: TextField(
+                    controller: _passwordController,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Password",
                       hintText: "Password",
                       border: OutlineInputBorder(
@@ -129,15 +168,15 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      textFieldLeftPad,
-                      textFieldTopPad - 463 > 0 ? 0 : 463 - textFieldTopPad,
-                      textFieldRightPad,
-                      textFieldTopPad - 463 > 0 ? textFieldTopPad - 463 : 0),
+                      _textFieldLeftPad,
+                      _textFieldTopPad - 463 > 0 ? 0 : 463 - _textFieldTopPad,
+                      _textFieldRightPad,
+                      _textFieldTopPad - 463 > 0 ? _textFieldTopPad - 463 : 0),
                   child: Center(
                     child: CupertinoButton(
                       color: Colors.grey,
                       onPressed: () {
-                        Navigator.pushNamed(context, "/home");
+                        registerUser(context);
                       },
                       child: const Text("Sign Up"),
                     ),

@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:mobile_reflect/pages/home_page.dart';
 import 'package:mobile_reflect/pages/login_page.dart';
 import 'package:mobile_reflect/pages/register_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // initialize the firebase connection
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyAOG0ZWw7q5exOo3dh0N5DGTiAOvYJ75xY",
+        authDomain: "webmobilereflect.firebaseapp.com",
+        projectId: "webmobilereflect",
+        storageBucket: "webmobilereflect.appspot.com",
+        messagingSenderId: "262140434455",
+        appId: "1:262140434455:web:d8eda3a52eb7f0afe16452",
+        measurementId: "G-0Q9WJ7SPR3"),
+  );
   runApp(const MyApp());
 }
 

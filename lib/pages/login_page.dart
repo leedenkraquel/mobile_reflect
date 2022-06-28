@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_reflect/pages/register_page.dart';
@@ -12,7 +14,26 @@ import 'package:mobile_reflect/pages/register_page.dart';
  *  None
  */
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final _emailController = TextEditingController(); // represents the text editor for the email field
+  final _passwordController = TextEditingController(); // represents the text editor for the password field
+
+  LoginPage({Key? key}) : super(key: key);
+
+  void signin(context) {
+    try {
+      FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text); // sign in the user with their credentials
+      if (FirebaseAuth.instance.currentUser != null) Navigator.pushNamed(context, "/home"); // go to home page
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print("No user found for that email");
+      } else if (e.code == 'wrong-password') {
+        print("Wong password provided for the user");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +70,11 @@ class LoginPage extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
                       textFieldLeftPad, 0, textFieldRightPad, textFieldTopPad),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                      labelText: "Username",
-                      hintText: "Username",
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: "Email",
+                      hintText: "Email",
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.black,
@@ -70,9 +92,10 @@ class LoginPage extends StatelessWidget {
                       textFieldTopPad - 113 > 0 ? 0 : 113 - textFieldTopPad,
                       textFieldRightPad,
                       textFieldTopPad - 113 > 0 ? textFieldTopPad - 113 : 0),
-                  child: const TextField(
+                  child: TextField(
+                    controller: _passwordController,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Password",
                       hintText: "Password",
                       border: OutlineInputBorder(
@@ -96,7 +119,7 @@ class LoginPage extends StatelessWidget {
                     child: CupertinoButton(
                       color: Colors.grey,
                       onPressed: () {
-                        Navigator.pushNamed(context, "/home");
+                        signin(context);
                       },
                       child: const Text("Sign In"),
                     ),
