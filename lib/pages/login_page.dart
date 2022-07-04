@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_reflect/pages/register_page.dart';
 
 /*
  * Name: LoginPage
@@ -26,12 +25,18 @@ class LoginPage extends StatelessWidget {
       if (FirebaseAuth.instance.currentUser != null) Navigator.pushNamed(context, "/home"); // go to home page
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print("No user found for that email");
+        if (kDebugMode) {
+          print("No user found for that email");
+        }
       } else if (e.code == 'wrong-password') {
-        print("Wong password provided for the user");
+        if (kDebugMode) {
+          print("Wong password provided for the user");
+        }
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

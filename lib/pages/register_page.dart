@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -31,20 +32,30 @@ class RegisterPage extends StatelessWidget {
     try {
       FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-      database.collection("users").add({
+      database.collection("users").doc(_emailController.text).set({
         "username": _usernameController.text,
         "email": _emailController.text,
         "name": _nameController.text,
+        "bio": "",
+        "favorite_color": "",
+        "favorite_food": "",
+        "something_cool": "",
       }); // create new database entry for the user
       Navigator.pushNamed(context, "/home"); // go to home page
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak');
+        if (kDebugMode) {
+          print('The password provided is too weak');
+        }
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email');
+        if (kDebugMode) {
+          print('The account already exists for that email');
+        }
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
