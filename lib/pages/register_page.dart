@@ -61,12 +61,15 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double _textFieldLeftPad =
+    const double formHeight = 450; // represents the height of the form
+    const double formWidth = 600; // represents the width of the form
+    const double textFieldLeftPad =
         200; // represents how far left the text fields start
-    const double _textFieldRightPad =
+    const double textFieldRightPad =
         100; // represents how far right the text fields end
-    const double _textFieldTopPad =
+    const double textFieldTopPad =
         250; // represents how high the text fields start
+    const double textFieldSpace = 115; // represents the space between the fields
 
     return Scaffold(
       body: Center(
@@ -75,8 +78,8 @@ class RegisterPage extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
-          height: 400,
-          width: 600,
+          height: formHeight,
+          width: formWidth,
           child: Stack(
             children: [
               Align(
@@ -92,8 +95,8 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(_textFieldLeftPad, 0,
-                      _textFieldRightPad, _textFieldTopPad),
+                  padding: const EdgeInsets.fromLTRB(textFieldLeftPad, 0,
+                      textFieldRightPad, textFieldTopPad),
                   child: TextField(
                     controller: _nameController,
                     decoration: const InputDecoration(
@@ -112,10 +115,10 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      _textFieldLeftPad,
-                      _textFieldTopPad - 113 > 0 ? 0 : 113 - _textFieldTopPad,
-                      _textFieldRightPad,
-                      _textFieldTopPad - 113 > 0 ? _textFieldTopPad - 113 : 0),
+                      textFieldLeftPad,
+                      textFieldTopPad - textFieldSpace > 0 ? 0 : textFieldSpace - textFieldTopPad,
+                      textFieldRightPad,
+                      textFieldTopPad - textFieldSpace > 0 ? textFieldTopPad - textFieldSpace : 0),
                   child: TextField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
@@ -134,10 +137,10 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      _textFieldLeftPad,
-                      _textFieldTopPad - 226 > 0 ? 0 : 226 - _textFieldTopPad,
-                      _textFieldRightPad,
-                      _textFieldTopPad - 226 > 0 ? _textFieldTopPad - 226 : 0),
+                      textFieldLeftPad,
+                      textFieldTopPad - 2 * textFieldSpace > 0 ? 0 : 2 * textFieldSpace - textFieldTopPad,
+                      textFieldRightPad,
+                      textFieldTopPad - 2 * textFieldSpace > 0 ? textFieldTopPad - 2 * textFieldSpace : 0),
                   child: TextField(
                     controller: _emailController,
                     decoration: const InputDecoration(
@@ -156,10 +159,10 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      _textFieldLeftPad,
-                      _textFieldTopPad - 339 > 0 ? 0 : 339 - _textFieldTopPad,
-                      _textFieldRightPad,
-                      _textFieldTopPad - 339 > 0 ? _textFieldTopPad - 339 : 0),
+                      textFieldLeftPad,
+                      textFieldTopPad - 3 * textFieldSpace > 0 ? 0 : 3 * textFieldSpace - textFieldTopPad,
+                      textFieldRightPad,
+                      textFieldTopPad - 3 * textFieldSpace > 0 ? textFieldTopPad - 3 * textFieldSpace : 0),
                   child: TextField(
                     controller: _passwordController,
                     obscureText: true,
@@ -179,10 +182,10 @@ class RegisterPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
-                      _textFieldLeftPad,
-                      _textFieldTopPad - 463 > 0 ? 0 : 463 - _textFieldTopPad,
-                      _textFieldRightPad,
-                      _textFieldTopPad - 463 > 0 ? _textFieldTopPad - 463 : 0),
+                      textFieldLeftPad,
+                      textFieldTopPad - 4 * textFieldSpace > 0 ? 0 : 4 * textFieldSpace - textFieldTopPad,
+                      textFieldRightPad,
+                      textFieldTopPad - 4 * textFieldSpace > 0 ? textFieldTopPad - 4 * textFieldSpace : 0),
                   child: Center(
                     child: CupertinoButton(
                       color: Colors.grey,

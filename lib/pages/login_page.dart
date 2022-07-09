@@ -42,12 +42,15 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double formHeight = 350; // represents the height of the form
+    const double formWidth = 600; // represents the width of the form
     const double textFieldLeftPad =
         200; // represents how far left the text fields start
     const double textFieldRightPad =
         100; // represents how far right the text fields end
     const double textFieldTopPad =
         150; // represents how high the text fields start
+    const double textFieldSpace = 115; // represents how much space is between fields
 
     return Scaffold(
       body: Center(
@@ -56,8 +59,8 @@ class LoginPage extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
-          height: 400,
-          width: 600,
+          height: formHeight,
+          width: formWidth,
           child: Stack(
             children: [
               Align(
@@ -94,9 +97,9 @@ class LoginPage extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
                       textFieldLeftPad,
-                      textFieldTopPad - 113 > 0 ? 0 : 113 - textFieldTopPad,
+                      textFieldTopPad - textFieldSpace > 0 ? 0 : textFieldSpace - textFieldTopPad,
                       textFieldRightPad,
-                      textFieldTopPad - 113 > 0 ? textFieldTopPad - 113 : 0),
+                      textFieldTopPad - textFieldSpace > 0 ? textFieldTopPad - textFieldSpace : 0),
                   child: TextField(
                     controller: _passwordController,
                     obscureText: true,
@@ -117,9 +120,9 @@ class LoginPage extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(
                       textFieldLeftPad,
-                      textFieldTopPad - 250 > 0 ? 0 : 250 - textFieldTopPad,
+                      textFieldTopPad - 2 * textFieldSpace > 0 ? 0 : 2 * textFieldSpace - textFieldTopPad,
                       textFieldRightPad,
-                      textFieldTopPad - 250 > 0 ? textFieldTopPad - 250 : 0),
+                      textFieldTopPad - 2 * textFieldSpace > 0 ? textFieldTopPad - 2 * textFieldSpace : 0),
                   child: Center(
                     child: CupertinoButton(
                       color: Colors.grey,
