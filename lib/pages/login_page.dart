@@ -44,13 +44,13 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var deviceData = MediaQuery.of(context); // represents the data returned by the physical device
     const mobileWidth = 500; // represents the minimum width of a web app
-    double formHeight; // represents the default height of the form
-    double formWidth; // represents the default width of the form
-    double formRadius; // represents the default radius of the form
-    double textFieldLeftPad; // represents how far left the text fields start by default
-    double textFieldRightPad; // represents how far right the text fields end by default
-    double textFieldTopPad; // represents how high the text fields start by default
-    double textFieldSpace; // represents how much space is between fields by default
+    double formHeight; // represents the height of the form
+    double formWidth; // represents the width of the form
+    double formRadius; // represents the radius of the form
+    double textFieldLeftPad; // represents how far left the text fields start
+    double textFieldRightPad; // represents how far right the text fields end
+    double textFieldTopPad; // represents how high the text fields start
+    double textFieldSpace; // represents how much space is between fields
 
     if (deviceData.size.width < mobileWidth) {
       formHeight = deviceData.size.height; // represents the height of the form on mobile

@@ -61,22 +61,40 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double formHeight = 450; // represents the height of the form
-    const double formWidth = 600; // represents the width of the form
-    const double textFieldLeftPad =
-        200; // represents how far left the text fields start
-    const double textFieldRightPad =
-        100; // represents how far right the text fields end
-    const double textFieldTopPad =
-        250; // represents how high the text fields start
-    const double textFieldSpace = 115; // represents the space between the fields
+    var deviceData = MediaQuery.of(context); // represents the data returned by the physical device
+    const mobileWidth = 500; // represents the minimum width of a web app
+    double formHeight; // represents the height of the form
+    double formWidth; // represents the width of the form
+    double formRadius; // represents the radius of the form
+    double textFieldLeftPad; // represents how far left the text fields start
+    double textFieldRightPad; // represents how far right the text fields end
+    double textFieldTopPad; // represents how high the text fields start
+    double textFieldSpace; // represents the space between the fields
+
+    if (deviceData.size.width < mobileWidth) {
+      formHeight = deviceData.size.height; // represents the height of the form on mobile
+      formWidth = deviceData.size.width; // represents the width of the form on mobile
+      formRadius = 0; // represents the radius of the form on mobile
+      textFieldLeftPad = 80; // represents how far left the text fields start on mobile
+      textFieldRightPad = 80; // represents how far right the text fields end on mobile
+      textFieldTopPad = 250; // represents how high the text fields start on mobile
+      textFieldSpace = 130; // represents how much space is between fields on mobile
+    } else {
+      formHeight = 450; // represents the height of the form on web
+      formWidth = 600; // represents the width of the form on web
+      formRadius = 20; // represents the radius of the form on web
+      textFieldLeftPad = 200; // represents how far left the text fields start on web
+      textFieldRightPad = 100; // represents how far right the text fields end on web
+      textFieldTopPad = 250; // represents how high the text fields start on web
+      textFieldSpace = 115; // represents how much space is between fields on web
+    }
 
     return Scaffold(
       body: Center(
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.all(Radius.circular(formRadius)),
           ),
           height: formHeight,
           width: formWidth,
@@ -95,7 +113,7 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(textFieldLeftPad, 0,
+                  padding: EdgeInsets.fromLTRB(textFieldLeftPad, 0,
                       textFieldRightPad, textFieldTopPad),
                   child: TextField(
                     controller: _nameController,
@@ -114,7 +132,7 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                       textFieldLeftPad,
                       textFieldTopPad - textFieldSpace > 0 ? 0 : textFieldSpace - textFieldTopPad,
                       textFieldRightPad,
@@ -136,7 +154,7 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                       textFieldLeftPad,
                       textFieldTopPad - 2 * textFieldSpace > 0 ? 0 : 2 * textFieldSpace - textFieldTopPad,
                       textFieldRightPad,
@@ -158,7 +176,7 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                       textFieldLeftPad,
                       textFieldTopPad - 3 * textFieldSpace > 0 ? 0 : 3 * textFieldSpace - textFieldTopPad,
                       textFieldRightPad,
@@ -181,7 +199,7 @@ class RegisterPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                       textFieldLeftPad,
                       textFieldTopPad - 4 * textFieldSpace > 0 ? 0 : 4 * textFieldSpace - textFieldTopPad,
                       textFieldRightPad,
@@ -220,18 +238,25 @@ class RegisterPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  margin: const EdgeInsets.fromLTRB(50, 0, 0, 50),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: AssetImage("web/icons/Icon-192.png")),
-                  ),
-                ),
+              LayoutBuilder(
+                builder: (context, constraint) {
+                  if (constraint.maxWidth < mobileWidth) {
+                    return Container();
+                  }
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      margin: const EdgeInsets.fromLTRB(50, 0, 0, 50),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage("web/icons/Icon-192.png")),
+                      ),
+                    ),
+                  );
+                }
               ),
             ],
           ),
